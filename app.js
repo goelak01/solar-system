@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '/')));
 app.use(cors())
 
-mongoose.connect('mongodb://172.16.252.135:27019', {
+mongoose.connect('mongodb://172.16.252.135:27019/test', {
     user: 'superuser',
     pass: 'superpassword',
     useNewUrlParser: true,
