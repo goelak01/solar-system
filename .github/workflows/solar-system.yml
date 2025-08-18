@@ -8,11 +8,11 @@ on:
       - 'feature/*'
 
 env:
-   MONGO_URI: '"mongodb://172.16.252.135:27019"'
+   MONGO_URI: 'mongodb://172.16.252.135:27019'
    MONGO_USERNAME: ${{ vars.MONGO_USERNAME}} 
    MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}   
 
-   
+
 jobs:
     unit-testing:
         name: Unit Testing
