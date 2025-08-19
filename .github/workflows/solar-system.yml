@@ -30,6 +30,7 @@ jobs:
     
         - name: Install Dependencies
           run: | 
+                npm cache clean --force.
                 npm install --no-audit 
                 npm install mongoose@6.13.8 
                 npm audit fix
