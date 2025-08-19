@@ -29,7 +29,9 @@ jobs:
             node-version: 18
     
         - name: Install Dependencies
-          run: npm install && npm audit fix --force
+          run: npm install --no-audit && npm install mongoose@6.13.8
+
+           
     
         - name: Unit Testing
           run: npm test
