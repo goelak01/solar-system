@@ -128,8 +128,8 @@ jobs:
                docker images 
                docker run --name solar-system-app -d \
                -p 3000:3000 \
-               -e MONGO_URI= ${{env.MONGO_URI}}\
-               -e MONGO_USERNAME = ${{env.MONGO_USERNAME}}\
+               -e MONGO_URI= ${{env.MONGO_URI}} \
+               -e MONGO_USERNAME = ${{env.MONGO_USERNAME}} \
                -e MONGO_PASSWORD = ${{env.MONGO_PASSWORD}} \
                 ${{vars.DOCKERHUB_USERNAME}}/solar-system:${{github.sha}}
 
