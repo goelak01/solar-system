@@ -11,7 +11,7 @@ env:
    MONGO_URI: 'mongodb+srv://@cluster0.makbxcb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
    MONGO_USERNAME: 'smileaman20'
    MONGO_PASSWORD: 'KCiFRqShCbabF1Wg'
-   
+
 
 
 
@@ -26,7 +26,7 @@ jobs:
         - name: Setup NodeJS Version
           uses: actions/setup-node@v3
           with:
-            node-version: 20
+            node-version: 18
     
         - name: Install Dependencies
           run: npm install
