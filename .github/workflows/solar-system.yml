@@ -32,13 +32,14 @@ jobs:
                 npm install mongoose@6.13.8 
                 npm audit fix
                 npm install --global yarn
-                npm install mocha@latest mocha-junit-reporter@latest --save-dev
 
-
-           
-
-    
         - name: Unit Testing
           run: npm test  --verbose
+        
+        - name: Archive Test Result
+          uses: actions/upload-artifact@v3
+          with:
+            name: Mocha-test-result
+            path: Test-results.xml
           
   
