@@ -54,7 +54,7 @@ jobs:
 
     code-coverage:
         name: code-coverage
-        runs-on: ${{matrix.operating_systems}}
+        runs-on: ubuntu-latest
         steps:
         - name: Checkout Repository
           uses: actions/checkout@v4
