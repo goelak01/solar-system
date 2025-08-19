@@ -35,7 +35,16 @@ jobs:
           uses: actions/setup-node@v3
           with:
             node-version: 21
-    
+
+ 
+        - name: Dependancies cache
+          uses: actions/cache@v4
+          with:
+            path: node_modules
+            key: ${{ runner.os }}-${{steps.get-date.outputs.date}}-ModeModules-${{ hashFiles('package-lock.json') }}
+
+
+          
         - name: Install Dependencies
           run: | 
                 npm install --no-audit
@@ -50,7 +59,7 @@ jobs:
           uses: actions/upload-artifact@v4
           with:
             name: Mocha-test-result
-            path: client/test-results.xml
+            path: test-results.xml
 
     code-coverage:
         name: code-coverage
@@ -63,7 +72,17 @@ jobs:
           uses: actions/setup-node@v3
           with:
             node-version: 21
-    
+       
+        - name: Dependancies cache
+          uses: actions/cache@v4
+          with:
+            path: node_modules
+            key: ${{ runner.os }}-${{steps.get-date.outputs.date}}-ModeModules-${{ hashFiles('package-lock.json') }}
+
+
+
+
+
         - name: Install Dependencies
           run:  npm install
 
@@ -75,11 +94,13 @@ jobs:
           uses: actions/upload-artifact@v4
           with:
             name: code-coverage-result
-            path: client/result.tar.gz
+            path: result.tar.gz
             if-no-files-found: warn
             overwrite: true
             include-hidden-files: true
 
+
+          
 
 
 
