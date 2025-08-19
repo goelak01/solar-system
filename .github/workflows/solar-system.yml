@@ -24,13 +24,14 @@ jobs:
         - name: Setup NodeJS Version
           uses: actions/setup-node@v3
           with:
-            node-version: 18
+            node-version: 21
     
         - name: Install Dependencies
           run: | 
-                npm install 
+                npm install --no-audit
                 npm install mongoose@6.13.8 
                 npm audit fix
+                npm install --global yarn
 
            
 
