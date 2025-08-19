@@ -8,7 +8,7 @@ on:
       - 'feature/*'
 
 env:
-   MONGO_URI: 'mongodb://172.16.252.135:27019"'
+   MONGO_URI: 'mongodb://172.16.252.135:27019'
    MONGO_USERNAME: 'superuser'
    MONGO_PASSWORD: 'superpassword'
 
