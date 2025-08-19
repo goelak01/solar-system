@@ -50,7 +50,7 @@ jobs:
           uses: actions/upload-artifact@v4
           with:
             name: Mocha-test-result
-            path: test-results.xml
+            path: client/test-results.xml
 
     code-coverage:
         name: code-coverage
@@ -75,6 +75,6 @@ jobs:
           uses: actions/upload-artifact@v4
           with:
             name: code-coverage-result
-            path: output/result.tar.gz
+            path: client/result.tar.gz
           
   
