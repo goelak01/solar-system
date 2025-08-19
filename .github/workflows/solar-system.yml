@@ -76,5 +76,11 @@ jobs:
           with:
             name: code-coverage-result
             path: client/result.tar.gz
-          
+            if-no-files-found: warn
+            overwrite: true
+            include-hidden-files: true
+
+
+
+
   
