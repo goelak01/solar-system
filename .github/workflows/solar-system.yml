@@ -139,7 +139,12 @@ jobs:
                 echo $IP
                 echo testing image
                 wget -q -O - 127.0.0.1:3000/live | grep live 
-
+        - name: docker Image push 
+          uses: docker/build-push-action@v6
+          with:
+              context: .
+              push: true
+              tags: ${{vars.DOCKERHUB_USERNAME}}/solar-system:${{github.sha}}
           
 
 
