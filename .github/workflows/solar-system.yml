@@ -35,9 +35,9 @@ jobs:
                 npm audit fix
 
            
-                
+
     
         - name: Unit Testing
-          run: npm test
+          run: npm test  --verbose
           
   
