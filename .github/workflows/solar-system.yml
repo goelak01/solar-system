@@ -22,7 +22,7 @@ jobs:
             operating_systems: [ubuntu-latest,macos-latest]
             exclude:
                 - nodejs_version: 18
-                  operating_system: macos-latest
+                  operating_systems: macos-latest
 
 
 
