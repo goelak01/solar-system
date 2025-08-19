@@ -13,8 +13,6 @@ env:
    MONGO_PASSWORD: 'KCiFRqShCbabF1Wg'
 
 
-
-
 jobs:
     unit-testing:
         name: Unit Testing
