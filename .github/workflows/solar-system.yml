@@ -173,7 +173,8 @@ jobs:
         - name: Check kubectl 
           run: |
             kubectl version
-            kubectl get nodes
+            kubectl config view 
+           
 
             
 
