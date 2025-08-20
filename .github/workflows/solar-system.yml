@@ -146,6 +146,7 @@ jobs:
               push: true
               tags: ${{vars.DOCKERHUB_USERNAME}}/solar-system:${{github.sha}}
  
+       
               
 
     Dev-deploy: 
@@ -169,7 +170,7 @@ jobs:
             
 
 
-            
+
 
         - name: Check kubectl 
           run: |
