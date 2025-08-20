@@ -102,7 +102,7 @@ jobs:
 
 
 
-    Docker-login: 
+    Docker: 
         name: Docker login
         needs : [unit-testing,code-coverage]
         runs-on: ubuntu-latest
@@ -145,8 +145,29 @@ jobs:
               context: .
               push: true
               tags: ${{vars.DOCKERHUB_USERNAME}}/solar-system:${{github.sha}}
+ 
+              
+
+    Dev-deploy: 
+      name: Dev deployement
+      needs: Docker
+      runs-on: ubuntu-latest
           
+      steps:
+        - name: Checkout Repository
+          uses: actions/checkout@v4
 
+        - name: Install Kubectl
+          uses: azure/setup-kubectl@v4
+          with:
+            version: '1.33' # default is latest stable
 
+        - name: Check kubectl 
+          run: |
+            kubectl version
+            echo ------------------------
+            kubectl get nodes
+            
+            
 
   
