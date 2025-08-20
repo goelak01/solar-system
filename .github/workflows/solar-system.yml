@@ -160,14 +160,20 @@ jobs:
         - name: Install Kubectl
           uses: azure/setup-kubectl@v4
           with:
-            version: '1.33' # default is latest stable
+            version: '1.30' # default is latest stable
+
+        - uses: azure/k8s-set-context@v4
+          with:
+            method: kubeconfig
+            kubeconfig: ${{secrets.KUBECONFIG}}
+            context: kubernetes-the-hard-way 
 
         - name: Check kubectl 
           run: |
             kubectl version
             echo ------------------------
             kubectl get nodes
-            
+
             
 
   
