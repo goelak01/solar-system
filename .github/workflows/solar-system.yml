@@ -166,14 +166,13 @@ jobs:
           with:
             method: kubeconfig
             kubeconfig: ${{secrets.KUBECONFIG}}
-            context: kubernetes-the-hard-way 
-
-
             
+
+
+
         - name: Check kubectl 
           run: |
             kubectl version
-            echo ------------------------
             kubectl get nodes
 
             
