@@ -166,7 +166,7 @@ jobs:
         - uses: azure/k8s-set-context@v4
           with:
             method: kubeconfig
-            kubeconfig: ${{secrets.KUBECONFIG3}}
+            kubeconfig: ${{secrets.KUBECONFIG4}}
             
         - name: Check kubectl 
           run: |
