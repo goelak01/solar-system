@@ -187,7 +187,7 @@ jobs:
 
         - name: Verify connection
           run: | 
-               curl -k https://192.168.56.30:6443/version
+               
                curl -k https://100.65.103.23:6443/version
                curl -s https://controlplane.tailscale.com | head
                sudo systemctl status tailscaled
@@ -210,7 +210,7 @@ jobs:
               echo "${{ secrets.KUBECONFIG_BASE64_NEW2}}" | base64 -d  > kubeconfig
               cat $PWD/kubeconfig
               export KUBECONFIG=$PWD/kubeconfig
-              kubectl --kubeconfig=$PWD/kubeconfig get nodes
+              kubectl get nodes --insecure-skip-tls-verify=true --server=https://100.65.103.23:6443
 
 
 
