@@ -188,17 +188,16 @@ jobs:
         - name: Verify connection
           run: tailscale status
 
-        - uses: azure/k8s-set-context@v4
-          with:
-            method: kubeconfig
-            kubeconfig: ${{secrets.KUBECONFIG7}}
+        # - uses: azure/k8s-set-context@v4
+        #   with:
+        #     method: kubeconfig
+        #     kubeconfig: {{secrets.KUBECONFIG7}}
             
         - name: Check kubectl 
           run: |
-              tailscale status
-              kubectl version --client --output=yaml
-
               
+              echo "${{ secrets.KUBECONFIG7 }}" | base64 -d > kubeconfig
+              export KUBECONFIG=$PWD/kubeconfig
               kubectl get nodes
 
 
