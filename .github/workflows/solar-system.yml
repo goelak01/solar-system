@@ -207,7 +207,7 @@ jobs:
           run: |
              
           
-              echo "${{ secrets.KUBECONFIG_BASE64_NEW2}}" | base64 -d  > kubeconfig
+              echo "${{ secrets.KUBECONFIG_BASE64}}" | base64 -d  > kubeconfig
               cat $PWD/kubeconfig
               export KUBECONFIG=$PWD/kubeconfig
               kubectl get nodes --insecure-skip-tls-verify=true --server=https://100.65.103.23:6443
