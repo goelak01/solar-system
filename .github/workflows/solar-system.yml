@@ -206,6 +206,7 @@ jobs:
               echo "${{ secrets.KUBECONFIG_BASE64}}" | base64 -d  > ~/.kube/config
               chmod 600 ~/.kube/config
               kubectl get nodes 
+              kubectl cluster-info
 
 
 
