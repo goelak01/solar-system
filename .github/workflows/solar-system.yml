@@ -196,7 +196,8 @@ jobs:
         - name: Check kubectl 
           run: |
               
-              echo "${{ secrets.KUBECONFIG7 }}" > kubeconfig
+              echo "${{ secrets.KUBECONFIG_base64}}" | base64 -d  > kubeconfig
+              cat $PWD/kubeconfig
               export KUBECONFIG=$PWD/kubeconfig
               kubectl get nodes
 
