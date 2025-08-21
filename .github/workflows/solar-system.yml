@@ -187,7 +187,7 @@ jobs:
 
         - name: Verify connection
           run: | 
-               
+               curl -k https://192.168.56.30:6443/version
                curl -k https://100.65.103.23:6443/version
                curl -s https://controlplane.tailscale.com | head
                sudo systemctl status tailscaled
