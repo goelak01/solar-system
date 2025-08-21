@@ -198,6 +198,7 @@ jobs:
               tailscale status
               kubectl version --client --output=yaml
 
+              
               kubectl get nodes
 
 
