@@ -187,13 +187,13 @@ jobs:
 
         - name: Verify connection
           run: | 
-               ping -c 3 100.84.224.105
-               nc -zv 100.84.224.105 6443
+               
 
                tailscale status
                tailscale ip
                ping -c 3 100.84.224.105
-               echo ${{ secrets.TAILSCALE_AUTH_KEY }}
+               nc -zv 100.84.224.105 6443
+               echo ${{ secrets.TAILSCALE_AUTH_KEY1 }}
 
         # - uses: azure/k8s-set-context@v4
         #   with:
