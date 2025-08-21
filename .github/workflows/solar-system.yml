@@ -158,10 +158,14 @@ jobs:
         - name: Checkout Repository
           uses: actions/checkout@v4
 
-        - name: Install Kubectl
-          uses: azure/setup-kubectl@v4
-          with:
-            version: 'v1.28.2' # default is latest stable
+       
+        
+        - name: Install kubectl for ARM64
+          run: |
+              curl -LO https://dl.k8s.io/release/v1.33.1/bin/linux/arm64/kubectl
+              chmod +x kubectl
+              sudo mv kubectl /usr/local/bin/
+
 
         - uses: azure/k8s-set-context@v4
           with:
@@ -172,7 +176,8 @@ jobs:
           run: |
             
 
-             
+              kubectl version --client --output=yaml
+
               kubectl get nodes
 
 
