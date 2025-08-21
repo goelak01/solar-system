@@ -189,10 +189,12 @@ jobs:
           run: | 
                
                curl -k https://100.65.103.23:6443/version
+               curl -s https://controlplane.tailscale.com | head
+               sudo systemctl status tailscaled
+
                tailscale status
                tailscale ip
-               ping -c 3 100.84.224.105
-               nc -zv 100.84.224.105 6443
+              
                echo ${{ secrets.TAILSCALE_AUTH_KEY1 }}
 
         # - uses: azure/k8s-set-context@v4
