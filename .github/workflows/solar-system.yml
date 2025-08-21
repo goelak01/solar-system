@@ -160,11 +160,22 @@ jobs:
 
        
         
-        - name: Install kubectl for ARM64
+        - name: Install kubectl (auto-detect arch)
           run: |
-              curl -LO https://dl.k8s.io/release/v1.33.1/bin/linux/arm64/kubectl
-              chmod +x kubectl
-              sudo mv kubectl /usr/local/bin/
+             ARCH=$(uname -m)
+             if [[ "$ARCH" == "x86_64" ]]; then
+             ARCH=amd64
+             elif [[ "$ARCH" == "aarch64" ]]; then
+             ARCH=arm64
+             else
+             echo "Unsupported architecture: $ARCH"
+             exit 1
+              fi
+
+             curl -LO https://dl.k8s.io/release/v1.33.1/bin/linux/${ARCH}/kubectl
+             chmod +x kubectl
+             sudo mv kubectl /usr/local/bin/
+
 
 
         - uses: azure/k8s-set-context@v4
