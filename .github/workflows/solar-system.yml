@@ -195,13 +195,13 @@ jobs:
             
         - name: Check kubectl 
           run: |
-              
+              curl -k https://100.84.224.105:6443/version
               echo "${{ secrets.KUBECONFIG_BASE64_NEW}}" | base64 -d  > kubeconfig
               cat $PWD/kubeconfig
               export KUBECONFIG=$PWD/kubeconfig
               kubectl get nodes
 
-              
+
 
             
     
