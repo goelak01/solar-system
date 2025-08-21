@@ -188,7 +188,7 @@ jobs:
         - name: Verify connection
           run: | 
                
-
+               curl -k https://100.65.103.23:6443/version
                tailscale status
                tailscale ip
                ping -c 3 100.84.224.105
