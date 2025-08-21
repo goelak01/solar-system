@@ -181,11 +181,12 @@ jobs:
         - uses: azure/k8s-set-context@v4
           with:
             method: kubeconfig
-            kubeconfig: ${{secrets.KUBECONFIG4}}
+            kubeconfig: ${{secrets.KUBECONFIG5}}
             
         - name: Check kubectl 
           run: |
             
+          
 
               kubectl version --client --output=yaml
 
