@@ -170,9 +170,9 @@ jobs:
             
         - name: Check kubectl 
           run: |
-              kubectl version 
+            
 
-              kubectl cluster-info
+             
               kubectl get nodes
 
 
