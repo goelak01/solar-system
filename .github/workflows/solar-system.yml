@@ -195,6 +195,7 @@ jobs:
                tailscale status
                tailscale ip
               
+               
                echo ${{ secrets.TAILSCALE_AUTH_KEY1 }}
 
         # - uses: azure/k8s-set-context@v4
