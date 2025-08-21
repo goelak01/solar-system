@@ -176,18 +176,26 @@ jobs:
              chmod +x kubectl
              sudo mv kubectl /usr/local/bin/
 
+         
+        - name: Install Tailscale
+          run: |
+            curl -fsSL https://tailscale.com/install.sh | sh
 
+        - name: Connect to Tailscale
+          run: |
+           sudo tailscale up --authkey ${{ secrets.TAILSCALE_AUTH_KEY }} --hostname github-runner --timeout 30s
+
+        - name: Verify connection
+          run: tailscale status
 
         - uses: azure/k8s-set-context@v4
           with:
             method: kubeconfig
-            kubeconfig: ${{secrets.KUBECONFIG5}}
+            kubeconfig: ${{secrets.KUBECONFIG6}}
             
         - name: Check kubectl 
           run: |
             
-          
-
               kubectl version --client --output=yaml
 
               kubectl get nodes
