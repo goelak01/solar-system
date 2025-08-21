@@ -195,7 +195,7 @@ jobs:
             
         - name: Check kubectl 
           run: |
-            
+              tailscale status
               kubectl version --client --output=yaml
 
               kubectl get nodes
