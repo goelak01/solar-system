@@ -228,8 +228,8 @@ jobs:
         
         - name : Check files 
           run: |
-          
-            cat kubernetes/devlopment/*.yml
+
+            cat kubernetes/development/*.yml
 
             
     
