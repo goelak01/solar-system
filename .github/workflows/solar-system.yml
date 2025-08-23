@@ -13,7 +13,7 @@ env:
    MONGO_USERNAME: 'superuser'
    MONGO_PASSWORD: 'SuperPassword'
 
-   
+
 
 jobs:
     unit-testing:
@@ -195,18 +195,16 @@ jobs:
 
                echo ${{ secrets.TAILSCALE_AUTH_KEY1 }}
 
-        # - uses: azure/k8s-set-context@v4
-        #   with:
-        #     method: kubeconfig
-        #     kubeconfig: {{secrets.KUBECONFIG7}}
+        - uses: azure/k8s-set-context@v4
+          with:
+             method: kubeconfig
+             kubeconfig: {{secrets.KUBECONFIG_BASE64}}
             
         - name: Check kubectl 
           run: |
             
 
-              mkdir -p ~/.kube
-              echo "${{ secrets.KUBECONFIG_BASE64}}" | base64 -d  > ~/.kube/config
-              chmod 600 ~/.kube/config
+
               kubectl get nodes 
               kubectl cluster-info
 
