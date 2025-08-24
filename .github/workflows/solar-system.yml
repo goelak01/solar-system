@@ -219,7 +219,7 @@ jobs:
           with:
             tokenPrefix: '_{_'
             tokenSuffix: '_}_'
-            files: '["/kubernetes/development/*.yaml"]'
+            files: '["kubernetes/development/*.yaml"]'
           env:
            NAMESPACE: ${{vars.NAMESPACE}}
            REPLICAS: ${{vars.REPLICAS}}
@@ -228,7 +228,7 @@ jobs:
         
         - name : Check files 
           run: |
-          
+
 
             cat kubernetes/development/*.yaml
 
