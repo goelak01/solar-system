@@ -233,7 +233,7 @@ jobs:
             cat kubernetes/development/*.yaml
         - name: create secrets
           run: |
-           kubectl create namespace development
+           
            kubectl -n ${{vars.NAMESPACE}} create secret generic mongo-db-creds \
            -- from-literal=MONGO_URI=${{env.MONGO_URI}} \
            --from-literal=MONGO_USERNAME=${{env.MONGO_USERNAME}} \
