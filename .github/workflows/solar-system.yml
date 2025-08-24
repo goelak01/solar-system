@@ -212,7 +212,7 @@ jobs:
 
         - name: Save nginx Ingress Controlller IP as a GITHUB Environment Variable
           run: |
-            echo " INGRESS_IP=$(kubectl get service --namespace ingress-nginx my-ingress-nginx-controller -o jsonpath="{.spec.externalIPs[0]}")"  >> $GITHUB_ENV 
+            echo "INGRESS_IP=$(kubectl get service --namespace ingress-nginx my-ingress-nginx-controller -o jsonpath="{.spec.externalIPs[0]}")"  >> $GITHUB_ENV 
 
 
         - uses: cschleiden/replace-tokens@v1
@@ -228,8 +228,10 @@ jobs:
         
         - name : Check files 
           run: |
+            echo ${{vars.NAMESPACE}}
+            echo ${{vars.REPLICAS}}
 
-
+            echo ${{env.INGRESS_IP}}
             cat kubernetes/development/*.yaml
 
             
