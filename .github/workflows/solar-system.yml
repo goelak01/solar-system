@@ -111,6 +111,7 @@ jobs:
         steps:
         - name: Checkout Repository
           uses: actions/checkout@v4
+
         - name: Set up QEMU (for ARM emulation)
           uses: docker/setup-qemu-action@v3
 
@@ -129,11 +130,11 @@ jobs:
           uses: docker/build-push-action@v6
           with:
               context: .
-              push: false
+              push: true
               platforms: linux/amd64,linux/arm64
               tags: ${{vars.DOCKERHUB_USERNAME}}/solar-system:${{github.sha}}
 
-              
+
         - name: Docker Image testing 
           run : |
                docker images 
