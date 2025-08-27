@@ -164,6 +164,8 @@ jobs:
 
     Dev-deploy: 
       name: Dev deployement
+      outputs: 
+        APP_INGRESS_HOST: ${{steps.set-ingress-host.outputs.APP_INGRESS_HOST}}
       needs: Docker
       runs-on: ubuntu-latest
           
@@ -257,6 +259,23 @@ jobs:
         - name: Deploy to Dev ENv
           run: | 
             kubectl apply -f kubernetes/development
+        - name: set APP ingress host URL
+          id: set-ingress-host
+          run: |
+             echo " APP_INGRESS_HOST= $(kubectl -n development  get ingress -o jsonpath="{.items[0].spec.rules[0].host}")" >> "$GITHUB_OUTPUT"
+        
+    Integration-testing: 
+        name: Dev Integration
+        needs: dev-deploy 
+        runs-on: ubuntu-latest
+        steps:
+          - name: test OURL output using CURL and JQ
+            env:
+              URL: ${{needs.dev-deploy.outputs.APP_INGRESS_HOST}}
+            run: |
+              echo $URL
+              echo "--------------------------------"
+              curl https://$URL/libe -s -k | jq -r .status | grep -i live 
 
             
     
