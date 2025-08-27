@@ -262,8 +262,9 @@ jobs:
         - name: set APP ingress host URL
           id: set-ingress-host
           run: |
+             
              echo " APP_INGRESS_HOST= $(kubectl -n development  get ingress -o jsonpath="{.items[0].spec.rules[0].host}")" >> "$GITHUB_OUTPUT"
-        
+             kubectl -n development  get ingress -o jsonpath="{.items[0].spec.rules[0].host}"
     Integration-testing: 
         name: Dev Integration
         needs: dev-deploy 
