@@ -265,12 +265,13 @@ jobs:
              
              echo " APP_INGRESS_HOST= $(kubectl -n development  get ingress -o jsonpath="{.items[0].spec.rules[0].host}")" >> "$GITHUB_OUTPUT"
              kubectl -n development  get ingress -o jsonpath="{.items[0].spec.rules[0].host}"
+              echo $GITHUB_OUTPUT
     Integration-testing: 
         name: Dev Integration
         needs: Dev-deploy 
         runs-on: ubuntu-latest
         steps:
-          - name: test OURL output using CURL and JQ
+          - name: test URL output using CURL and JQ
             env:
               URL: ${{needs.Dev-deploy.outputs.APP_INGRESS_HOST}}
             run: |
