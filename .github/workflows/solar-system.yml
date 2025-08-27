@@ -267,12 +267,12 @@ jobs:
              kubectl -n development  get ingress -o jsonpath="{.items[0].spec.rules[0].host}"
     Integration-testing: 
         name: Dev Integration
-        needs: dev-deploy 
+        needs: Dev-deploy 
         runs-on: ubuntu-latest
         steps:
           - name: test OURL output using CURL and JQ
             env:
-              URL: ${{needs.dev-deploy.outputs.APP_INGRESS_HOST}}
+              URL: ${{needs.Dev-deploy.outputs.APP_INGRESS_HOST}}
             run: |
               echo $URL
               echo "--------------------------------"
