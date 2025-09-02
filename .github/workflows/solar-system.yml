@@ -264,8 +264,11 @@ jobs:
           run: |
              
              echo " APP_INGRESS_HOST= $(kubectl -n development  get ingress -o jsonpath="{.items[0].spec.rules[0].host}")" >> "$GITHUB_OUTPUT"
+            
+            
              kubectl -n development  get ingress -o jsonpath="{.items[0].spec.rules[0].host}"
-              echo $GITHUB_OUTPUT
+            
+             
     Integration-testing: 
         name: Dev Integration
         needs: Dev-deploy 
