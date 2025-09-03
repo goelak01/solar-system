@@ -270,7 +270,7 @@ jobs:
             
           
              
-    Integration-testing: 
+    Dev-Integration-testing: 
         name: Dev Integration
         needs: Dev-deploy 
         runs-on: ubuntu-latest
@@ -281,11 +281,125 @@ jobs:
             run: |
               
               echo "--------------------------------"
-              curl https://$URL/live http://192.168.56.21:30108/live -s -k | jq -r .status | grep -i live 
+              curl https://$URL:8443/live  -s -k | jq -r .status | grep -i live 
               
             
     
 
+    Prod-deploy: 
+      name: Dev deployement
+      outputs: 
+        APP_INGRESS_HOST: ${{steps.set-ingress-host.outputs.APP_INGRESS_HOST}}
+      needs: Dev-deploy
+      environment:
+        name: production
+        url: http://${{steps.set-ingress-host.outputs.APP_INGRESS_HOST}}
+      runs-on: ubuntu-latest
+          
+      steps:
+        - name: Checkout Repository
+          uses: actions/checkout@v4
+
+       
+        
+        - name: Install kubectl (auto-detect arch)
+          run: |
+             ARCH=$(uname -m)
+             if [[ "$ARCH" == "x86_64" ]]; then
+             ARCH=amd64
+             elif [[ "$ARCH" == "aarch64" ]]; then
+             ARCH=arm64
+             else
+             echo "Unsupported architecture: $ARCH"
+             exit 1
+              fi
+
+             curl -LO https://dl.k8s.io/release/v1.33.1/bin/linux/${ARCH}/kubectl
+             chmod +x kubectl
+             sudo mv kubectl /usr/local/bin/
+
+         
+        - name: Install Tailscale
+          run: |
+            curl -fsSL https://tailscale.com/install.sh | sh
+
+        - name: Connect to Tailscale
+          run: |
+           sudo tailscale up --authkey ${{ secrets.TAILSCALE_AUTH_KEY }} --hostname github-runner --timeout 30s
+
+        - name: Verify connection
+          run: | 
+               
+               tailscale status
+               tailscale ip
+              
+
+               echo ${{ secrets.TAILSCALE_AUTH_KEY1 }}
+
+        # - uses: azure/k8s-set-context@v4
+        #   with:
+        #      method: kubeconfig
+        #      kubeconfig: {{secrets.KUBECONFIG_BASE64}}
+            
+        - name: Check kubectl 
+          run: |
+            
+              mkdir -p ~/.kube
+              echo "${{ secrets.KUBECONFIG_BASE64}}" | base64 -d  > ~/.kube/config
+              chmod 600 ~/.kube/config
+
+              kubectl get nodes 
+              kubectl cluster-info
+
+        - name: Save nginx Ingress Controlller IP as a GITHUB Environment Variable
+          run: |
+            echo "INGRESS_IP=$(kubectl get svc --namespace ingress-nginx ingress-nginx-controller   -o jsonpath='{.status.loadBalancer.ingress[0].ip}')"  >> $GITHUB_ENV 
+ 
+
+
+        - uses: cschleiden/replace-tokens@v1
+          with:
+            tokenPrefix: '_{_'
+            tokenSuffix: '_}_'
+            files: '["kubernetes/production/*.yaml"]'
+          env:
+           NAMESPACE: ${{ vars.NAMESPACE }}
+           REPLICAS: ${{ vars.REPLICAS }}
+           IMAGE: ${{vars.DOCKERHUB_USERNAME}}/solar-system:${{github.sha}}
+           INGRESS_IP: ${{env.INGRESS_IP}} 
+        
+        - name : Check files 
+          run: |
+            
+            cat kubernetes/production/*.yaml
+        - name: create secrets
+          run: |
+           
+           kubectl -n ${{vars.NAMESPACE}} create secret generic mongo-db-creds \
+           -- from-literal=MONGO_URI=${{env.MONGO_URI}} \
+           --from-literal=MONGO_USERNAME=${{env.MONGO_USERNAME}} \
+           --from-literal=MONGO_PASSWORD=${{env.MONGO_PASSWORD}} \
+           --save-config \
+           --dry-run=client \
+           -o yaml | kubectl apply -f - 
+
+        - name: Deploy to Dev ENv
+          run: | 
+            kubectl apply -f kubernetes/production
+        - name: set APP ingress host URL
+          id: set-ingress-host
+          run: |
+             
+             echo "APP_INGRESS_HOST=$(kubectl -n production  get ingress -o jsonpath="{.items[0].spec.rules[0].host}")" >> "$GITHUB_OUTPUT"
+            
+             echo "$APP_INGRESS_HOST"
+             kubectl -n production  get ingress -o jsonpath="{.items[0].spec.rules[0].host}"
+            
+          
+          
+              
+            
+    
             
 
   
