@@ -287,7 +287,7 @@ jobs:
     
 
     Prod-deploy: 
-      name: Dev deployement
+      name: Prod deployement
       outputs: 
         APP_INGRESS_HOST: ${{steps.set-ingress-host.outputs.APP_INGRESS_HOST}}
       needs: Dev-deploy
