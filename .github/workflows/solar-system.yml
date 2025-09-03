@@ -164,6 +164,7 @@ jobs:
 
     Dev-deploy: 
       name: Dev deployement
+      if: contains(github.ref,'feature/')
       outputs: 
         APP_INGRESS_HOST: ${{steps.set-ingress-host.outputs.APP_INGRESS_HOST}}
       needs: Docker
@@ -271,7 +272,9 @@ jobs:
           
              
     Dev-Integration-testing: 
+        
         name: Dev Integration
+        if: contains(github.ref,'feature/')
         needs: Dev-deploy 
         runs-on: ubuntu-latest
         steps:
@@ -288,9 +291,10 @@ jobs:
 
     Prod-deploy: 
       name: Prod deployement
+      if: github.ref  == 'refs/heads/main'
       outputs: 
         APP_INGRESS_HOST: ${{steps.set-ingress-host.outputs.APP_INGRESS_HOST}}
-      needs: Dev-deploy
+      needs: Docker
       environment:
         name: production
         url: http://${{steps.set-ingress-host.outputs.APP_INGRESS_HOST}}
