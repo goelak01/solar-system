@@ -9,8 +9,11 @@ pipeline {
                 sh "npm install --no-audit"
             }
         }
+        
+        satge("Dependencies Check"){
+            parallel {
         stage("Dependency Check"){
-            stage {
+            steps {
             dependencyCheck additionalArguments: '', odcInstallation: 'dep121-3'
             
             
@@ -26,3 +29,4 @@ pipeline {
             }
     }
 }
+}}
