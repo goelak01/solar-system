@@ -20,6 +20,9 @@ pipeline {
         stage("NPM Check"){
             steps {
             dependencyCheck additionalArguments: '''--scan \'./\' --format ALL''', odcInstallation: 'dep121-3'
+            
+            junit allowEmptyResults: true, keepProperties: true, keepTestNames: true, testResults: 'dependency-check-junit.xml'
+            
             publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, icon: '', keepAll: true, reportDir: './', reportFiles: 'dependency-check-jenkins.html', reportName: '', reportTitles: '', useWrapperFileDirectly: true])
             }
         }
