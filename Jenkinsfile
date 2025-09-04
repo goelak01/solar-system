@@ -3,6 +3,11 @@ pipeline {
     tools
     { 'nodejs' 'node24'
     }
+    environment {
+        MONGO_URI = "mongodb+srv://supercluster.d83jj.mongodb.net/superData"
+        MONGO_PASSWORD = 'bar'
+        MONGO_USERNAME = "asd"
+    }
     stages {
         stage('Clean Dependencies') {
             steps {
@@ -35,5 +40,11 @@ pipeline {
             }
             }
     }
+     stage('Unit Testing') {
+            steps {
+                sh "npm test"
+            }
+        }
+    
 }
 }}
