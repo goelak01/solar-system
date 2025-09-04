@@ -14,8 +14,7 @@ pipeline {
             parallel {
         stage("NPM Check"){
             steps {
-            dependencyCheck additionalArguments: '', odcInstallation: 'dep121-3'
-            
+            dependencyCheck additionalArguments: '''--scan \'./\' --format ALL''', odcInstallation: 'dep121-3'
             
             }
         }
