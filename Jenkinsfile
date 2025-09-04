@@ -8,7 +8,7 @@ pipeline {
             steps {
                 sh 'node -v'
                 sh 'npm -v'
-                echo "Changes made to webhoo"
+                echo "Changes made to webhook"
             }
         }
     }
