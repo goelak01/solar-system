@@ -9,6 +9,13 @@ pipeline {
                 sh "npm install --no-audit"
             }
         }
+        stage("Dependency Check"){
+            stage {
+            dependencyCheck additionalArguments: '', odcInstallation: 'dep121-3'
+            
+            
+            }
+        }
      stage("NPM audit"){
             steps{
                 sh '''
