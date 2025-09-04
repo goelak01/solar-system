@@ -13,5 +13,6 @@ pipeline {
             steps{
                 npm audit --audit-level=critical
             }
+            }
     }
 }
