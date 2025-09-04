@@ -4,12 +4,14 @@ pipeline {
     { 'nodejs' 'node24'
     }
     stages {
-        stage('Hello') {
+        stage('Install Dependencies') {
             steps {
-                sh 'node -v'
-                sh 'npm -v'
-                echo "Changes made to webhook"
+                sh "npm install --no-audit"
             }
         }
+     stage("NPM audit"){
+            steps{
+                npm audit --audit-level=critical
+            }
     }
 }
