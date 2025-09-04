@@ -10,9 +10,9 @@ pipeline {
             }
         }
         
-        stage("Dependencies Check"){
+        stage("Dependencies Checks"){
             parallel {
-        stage("Dependency Check"){
+        stage("NPM Check"){
             steps {
             dependencyCheck additionalArguments: '', odcInstallation: 'dep121-3'
             
@@ -23,7 +23,7 @@ pipeline {
             steps{
                 sh '''
                 npm audit --audit-level=critical
-                echo $?
+                npm audit fix
                 '''
             }
             }
