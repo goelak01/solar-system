@@ -4,6 +4,11 @@ pipeline {
     { 'nodejs' 'node24'
     }
     stages {
+        stage('Clean Dependencies') {
+            steps {
+                sh "npm cache clean --force"
+            }
+        }
         stage('Install Dependencies') {
             steps {
                 sh "npm install --no-audit"
@@ -15,7 +20,7 @@ pipeline {
         stage("NPM Check"){
             steps {
             dependencyCheck additionalArguments: '''--scan \'./\' --format ALL''', odcInstallation: 'dep121-3'
-            
+            publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, icon: '', keepAll: true, reportDir: './', reportFiles: 'dependency-check-jenkins.html', reportName: '', reportTitles: '', useWrapperFileDirectly: true])
             }
         }
      stage("NPM audit"){
