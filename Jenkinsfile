@@ -8,6 +8,7 @@ pipeline {
             steps {
                 sh 'node -v'
                 sh 'npm -v'
+                echo "Have pull data from github"
             }
         }
     }
