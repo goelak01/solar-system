@@ -22,10 +22,8 @@ pipeline {
      stage("NPM audit"){
             steps{
                 sh '''
-                npm audit --audit-level=critical
-                if $? !=0:
                 npm audit fix --force
-                fi
+                npm audit --audit-level=critical
                 '''
             }
             }
