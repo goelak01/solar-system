@@ -39,12 +39,11 @@ pipeline {
                 '''
             }
             }
-    }
-     stage('Unit Testing') {
+    }}
+         stage('Unit Testing') {
             steps {
                 sh "npm test"
             }
         }
     
-}
 }}
