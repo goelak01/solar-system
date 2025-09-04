@@ -10,7 +10,7 @@ pipeline {
             }
         }
         
-        satge("Dependencies Check"){
+        stage("Dependencies Check"){
             parallel {
         stage("Dependency Check"){
             steps {
