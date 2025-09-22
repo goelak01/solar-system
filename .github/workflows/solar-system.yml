@@ -8,7 +8,7 @@ on:
 env:
   MONGO_USERNAME: ${{vars.MONGO_USERNAME}}
   MONGO_PASSWORD: ${{secrets.MONGO_PASSWORD}}
-  MONGO_URI: mongodb+srv://${{vars.MONGO_USERNAME}}:${{secrets.MONGO_PASSWORD}}@cluster0.h87iivl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+  MONGO_URI: mongodb+srv://${{vars.MONGO_USERNAME}}:${{secrets.MONGO_PASSWORD}}@cluster0.h87iivl.mongodb.net/solar_system?retryWrites=true&w=majority&appName=Cluster0
 jobs:
   unit-testing:
     name: Unit Testing
