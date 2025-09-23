@@ -13,7 +13,7 @@ jobs:
   unit-testing:
     services:
       mongo-db:
-        image: mongo:6.0.6-bionic
+        image: mongo:6.0
         ports:
           - 27017:27017
         env:
