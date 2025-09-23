@@ -87,6 +87,8 @@ jobs:
     name: containerization
     runs-on: ubuntu-latest
     needs: [unit-testing, code-coverage]
+    permissions: 
+      packages: write
     steps:
       - name: Code Checkout
         uses: actions/checkout@v5
@@ -124,7 +126,7 @@ jobs:
           echo "Adresse IP du conteneur : $IP"
           echo Test URL using wget
           wget -q -O - 127.0.0.1:3000/live | grep live
-          
+
       # - name: Container Registry Push for Git Hub
       #   uses: docker/build-push-action@v6s
       #   with:
