@@ -215,7 +215,7 @@ after((done) => {
 
 describe('Planets API Suite', () => {
 
-    
+
     describe('Fetching Planet Details', () => {
         it('it should fetch a planet named Mercury', (done) => {
             chai.request(server)
@@ -224,7 +224,7 @@ describe('Planets API Suite', () => {
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.have.property('id').eql(1);
-                    res.body.should.have.property('name').eql('Mercury');
+                    res.body.should.have.property('name').eql('Mercury----RRR');
                     done();
                 });
         });
