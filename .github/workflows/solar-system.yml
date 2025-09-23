@@ -23,7 +23,7 @@ jobs:
     
       MONGO_USERNAME: non-prod-user
       MONGO_PASSWORD: non-prod-password
-      MONGO_URI: mongodb://non-prod-user:non-prod-password@localhost:27017/solar_system
+      MONGO_URI: mongodb://non-prod-user:non-prod-password@localhost:27017/solar_system?authSource=admin
     strategy:
       matrix:
         nodejs_version: [18, 20]
