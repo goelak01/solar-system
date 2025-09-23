@@ -52,6 +52,13 @@ jobs:
   
       - name: Install all Dependencies
         run: npm install
+
+      - name: Wait for MongoDB
+        run: |
+          until mongosh --eval 'db.adminCommand("ping")' -u non-prod-user -p non-prod-password; do
+            echo "Waiting for MongoDB..."
+            sleep 2
+          done
       
       - name: Unit Testing
         id: nodejs-unit-testing-step
