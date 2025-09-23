@@ -133,7 +133,7 @@ jobs:
           context: .
           push: true
           tags: |
-            OWNER=$(echo "${{ github.repository_owner }}" | awk '{print tolower($0)}')
+            OWNER=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
             ${{vars.DOCKERHUB_USERNAME}}/solar-system:${{github.sha}}
             ghcr.io/$OWNER/solar-system:${{ github.sha }}
 
