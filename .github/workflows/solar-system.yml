@@ -100,7 +100,7 @@ jobs:
       - name: GHCR Login
         uses: docker/login-action@v3
         with:
-          registry: ghc
+          registry: ghcr.io
           username: ${{github.repository_owner}}
           password: ${{secrets.GITHUB_TOKEN}}
 
