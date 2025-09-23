@@ -97,6 +97,13 @@ jobs:
           username: ${{ vars.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
+      - name: GHCR Login
+        uses: docker/login-action@v3
+        with:
+          registry: ghc
+          username: ${{github.repository_owner}}
+          password: ${{secrets.GITHUB_TOKEN}}
+
       - name: Docker build for testing
         uses: docker/build-push-action@v6
         with:
