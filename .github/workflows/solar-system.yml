@@ -125,12 +125,12 @@ jobs:
           echo Test URL using wget
           wget -q -O - 127.0.0.1:3000/live | grep live
       - name: Container Registry Push for Git Hub
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v6s
         with:
           context: .
           push: true
           tags: |
             ${{vars.DOCKERHUB_USERNAME}}/solar-system:${{github.sha}}
-            ghcr.io/${{vars.DOCKERHUB_USERNAME}}/solar-system:${{ github.sha }}
+            ghcr.io/${{vars.USERNAME_GITHUB}}/solar-system:${{ github.sha }}
 
 
