@@ -11,6 +11,19 @@ env:
   MONGO_URI: mongodb+srv://${{vars.MONGO_USERNAME}}:${{secrets.MONGO_PASSWORD}}@cluster0.h87iivl.mongodb.net/solar_system?retryWrites=true&w=majority&appName=Cluster0
 jobs:
   unit-testing:
+    services:
+      mongo-db:
+        image: mongo:6.0.6-bionic
+        ports:
+          - 27017:27017
+        env:
+          MONGO_INITDB_ROOT_USERNAME: non-prod-user
+          MONGO_INITDB_ROOT_PASSWORD: non-prod-password
+          # MONGO_URI: mongodb+srv://${{env.MONGO_USERNAME}}:${{env.MONGO_PASSWORD}}@localhost/solar_system?retryWrites=true&w=majority&appName=Cluster0
+    env:
+      MONGO_URI: mongodb://nonproduser:nonprodpassword@localhost:27017/solar_system
+      MONGO_USERNAME: nonproduser
+      MONGO_PASSWORD: nonprodpassword
     strategy:
       matrix:
         nodejs_version: [18, 20]
