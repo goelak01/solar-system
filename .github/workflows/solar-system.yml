@@ -8,7 +8,7 @@ on:
 env:
   MONGO_USERNAME: ${{vars.MONGO_USERNAME}}
   MONGO_PASSWORD: ${{secrets.MONGO_PASSWORD}}
-  MONGO_URI: mongodb+srv://${{vars.MONGO_USERNAME}}:${{secrets.MONGO_PASSWORD}}@cluster0.h87iivl.mongodb.net/solar_system?retryWrites=true&w=majority&appName=Cluster0
+
 jobs:
   unit-testing:
     services:
@@ -20,9 +20,10 @@ jobs:
           MONGO_INITDB_ROOT_USERNAME: non-prod-user
           MONGO_INITDB_ROOT_PASSWORD: non-prod-password
     env:
-      MONGO_URI: mongodb://nonproduser:nonprodpassword@localhost:27017/solar_system
+    
       MONGO_USERNAME: non-prod-user
       MONGO_PASSWORD: non-prod-password
+      MONGO_URI: mongodb://non-prod-user:non-prod-password@localhost:27017/solar_system
     strategy:
       matrix:
         nodejs_version: [18, 20]
