@@ -11,16 +11,24 @@ env:
   MONGO_URI: mongodb+srv://${{vars.MONGO_USERNAME}}:${{secrets.MONGO_PASSWORD}}@cluster0.h87iivl.mongodb.net/solar_system?retryWrites=true&w=majority&appName=Cluster0
 jobs:
   unit-testing:
+    strategy:
+      matrix:
+        nodejs_version: [18, 19, 20]
+        operating_system: [ubuntu-latest, macos-latest]
+        exlude:
+          - nodejs_version: 18
+            operating_system: macos-latest
+
     name: Unit Testing
-    runs-on: ubuntu-latest
+    runs-on: ${{matrix.operating_system}}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v5
       
-      - name: Setup NodeJS Version - 18
+      - name: Setup NodeJS Version - ${{matrix.nodejs_version}}
         uses: actions/setup-node@v5
         with: 
-          node-version: 18
+          node-version: ${{matrix.nodejs_version}}
       - name: Install all Dependencies
         run: npm install
       
