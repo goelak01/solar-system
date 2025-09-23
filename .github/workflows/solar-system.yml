@@ -128,7 +128,7 @@ jobs:
           wget -q -O - 127.0.0.1:3000/live | grep live
 
       - name: Container Registry Push for Git Hub
-        uses: docker/build-push-action@v6s
+        uses: docker/build-push-action@v6
         with:
           context: .
           push: true
