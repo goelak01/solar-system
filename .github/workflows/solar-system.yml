@@ -74,20 +74,38 @@ jobs:
 
     name: Code Coverage
     runs-on: ubuntu-latest
+    container:
+      image: node:18
+    services:
+       mongo-db:
+        image: mongo:6.0
+        ports:
+          - 27017:27017
+        env:
+          MONGO_INITDB_ROOT_USERNAME: non-prod-user
+          MONGO_INITDB_ROOT_PASSWORD: non-prod-password
+        options: >-
+          --health-cmd "mongosh --eval 'db.adminCommand(\"ping\")'" 
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      
     steps:
       - name: checkout Repository
         uses: actions/checkout@v5
       
-      - name: Setup NodeJs Version - 18
-        uses: actions/setup-node@v5
-        with:
-          node-version: 18
+      # - name: Setup NodeJs Version - 18
+      #   uses: actions/setup-node@v5
+      #   with:
+      #     node-version: 18
 
       - name: Cache NPM dependencies
         uses: actions/cache@v4
         with:
           path: node_modules
           key: ${{runner.os}}-node-modules-${{hashFiles('package-lock.json')}}
+      - name: Set dynamic MONGO_URI
+        run: echo "MONGO_URI=mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@localhost:27017/solar_system?authSource=admin" >> $GITHUB_ENV
 
       - name: Install Dependencies
         run: npm install 
