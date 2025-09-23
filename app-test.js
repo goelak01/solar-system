@@ -215,6 +215,7 @@ after((done) => {
 
 describe('Planets API Suite', () => {
 
+    
     describe('Fetching Planet Details', () => {
         it('it should fetch a planet named Mercury', (done) => {
             chai.request(server)
@@ -325,6 +326,7 @@ describe('Testing Other Endpoints', () => {
                 done();
             });
     });
+
 
     it('it checks Liveness endpoint', (done) => {
         chai.request(server)
