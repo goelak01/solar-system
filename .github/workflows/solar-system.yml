@@ -126,15 +126,18 @@ jobs:
           echo "Adresse IP du conteneur : $IP"
           echo Test URL using wget
           wget -q -O - 127.0.0.1:3000/live | grep live
-
+    
+      - name: Normalize repo owner
+        id: vars
+        run: echo "owner=$(echo '${{ github.repository_owner }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_OUTPUT
+      
       - name: Container Registry Push for Git Hub
         uses: docker/build-push-action@v6
         with:
           context: .
           push: true
           tags: |
-            OWNER=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
             ${{vars.DOCKERHUB_USERNAME}}/solar-system:${{github.sha}}
-            ghcr.io/$OWNER/solar-system:${{ github.sha }}
+            ghcr.io/${{steps.vars.outputs.owner}}/solar-system:${{ github.sha }}
 
 
