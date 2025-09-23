@@ -25,10 +25,9 @@ jobs:
           --health-timeout 5s
           --health-retries 5
     env:
-    
       MONGO_USERNAME: non-prod-user
       MONGO_PASSWORD: non-prod-password
-      MONGO_URI: mongodb://non-prod-user:non-prod-password@localhost:27017/solar_system?authSource=admin
+      #MONGO_URI: mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@localhost:27017/solar_system?authSource=admin
     strategy:
       matrix:
         nodejs_version: [18, 20]
@@ -42,6 +41,9 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v5
+      
+      - name: Set dynamic MONGO_URI
+        run: echo "MONGO_URI=mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@localhost:27017/solar_system?authSource=admin" >> $GITHUB_ENV
       
       - name: Setup NodeJS Version - ${{matrix.nodejs_version}}
         uses: actions/setup-node@v5
