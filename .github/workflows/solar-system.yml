@@ -187,6 +187,12 @@ jobs:
     steps:
       - name: checkout Repo
         uses: actions/checkout@v5
+
+      - name:  Create cluster using KinD
+        uses: engineerd/setup-kind@v0.6.0
+        with:
+          version: "v0.24.0"
+
       - name: Install kubectl CLI
         uses: azure/setup-kubectl@v4
       
