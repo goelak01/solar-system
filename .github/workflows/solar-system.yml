@@ -192,8 +192,11 @@ jobs:
       
       - name: Fetch Kubernetes CLuster Details
         run: |
-          kubectl version --short
-          echo  --------------------------
+          echo "Client Version:"
+          kubectl version --client
+          echo "Server Version:"
+          kubectl version
+          echo "Nodes
           kubectl get nodes
 
 
