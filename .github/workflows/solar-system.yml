@@ -221,19 +221,19 @@ jobs:
           kubectl version --client
           echo "Server Version:"
           kubectl version
-          echo "Nodes
+          echo "Nodes"
           kubectl get nodes
 
-      - name: Replace Token in Manifest files
-        uses:  cschleiden/replace-tokens@v1
-        with:
-          tokenPrefix: '_{_'
-          tokenSuffix: '_}_'
-          files: '["solar-system-repo/kubernetes/development/*.yaml"]'
-        env:
-          NAMESPACE: ${{vars.NAMESPACE}}
-          REPLICAS: ${{vars.REPLICAS}}
-          IMAGE: ${{vars.DOCKERHUB_USERNAME}}/solar-systems:${{github.sha}}
+      # - name: Replace Token in Manifest files
+      #   uses:  cschleiden/replace-tokens@v1
+      #   with:
+      #     tokenPrefix: '_{_'
+      #     tokenSuffix: '_}_'
+      #     files: '["solar-system-repo/kubernetes/development/*.yaml"]'
+      #   env:
+      #     NAMESPACE: ${{vars.NAMESPACE}}
+      #     REPLICAS: ${{vars.REPLICAS}}
+      #     IMAGE: ${{vars.DOCKERHUB_USERNAME}}/solar-systems:${{github.sha}}
      
 
 
