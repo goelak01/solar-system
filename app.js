@@ -122,7 +122,7 @@ const dataSchema = new Schema({
 });
 const planetModel = mongoose.model('planets', dataSchema);
 
-app.post('/planet', (req, res) => {
+app.post('/planet/:name', (req, res) => {
     planetModel.findOne({ id: req.body.id }, (err, planetData) => {
         if (err || !planetData) {
             return res.status(404).send({ error: "Planet not found" });
