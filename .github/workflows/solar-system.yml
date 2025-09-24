@@ -188,13 +188,26 @@ jobs:
       - name: checkout Repo
         uses: actions/checkout@v5
 
-      - name:  Create cluster using KinD
-        uses:  kubernetes-sigs/kind@v0.20.0
-        with:
-          version: v0.20.0
+      - name: Install kind CLI
+        run: |
+          curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.20.0/kind-linux-amd64
+          chmod +x ./kind
+          sudo mv ./kind /usr/local/bin/kind
+
+      # - name:  Create cluster using KinD
+      #   uses:  kubernetes-sigs/kind@v0.20.0
+      #   with:
+      #     version: v0.20.0
+      
 
       - name: Install kubectl CLI
         uses: azure/setup-kubectl@v4
+
+      - name: Create KinD cluster
+        run: kind create cluster --name test-cluster
+
+      - name: Set kubeconfig
+        run: export KUBECONFIG="$(kind get kubeconfig-path --name="test-cluster")"
       
       # - name: Set Kubeconfig file
       #   uses: azure/k8s-set-context@v4
@@ -219,6 +232,9 @@ jobs:
           files: '["solar-system-repo/kubernetes/development/*.yaml"]'
         env:
           NAMESPACE: ${{vars.NAMESPACE}}
+          REPLICAS: ${{vars.REPLICAS}}
+          IMAGE: ${{vars.DOCKERHUB_USERNAME}}/solar-systems:${{github.sha}}
+     
 
 
 
