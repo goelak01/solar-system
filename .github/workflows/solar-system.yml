@@ -190,6 +190,12 @@ jobs:
       - name: Install kubectl CLI
         uses: azure/setup-kubectl@v4
       
+      - name: Set Kubeconfig file
+        uses: azure/k8s-set-context@v4
+        with:
+          method: kubeconfig
+          kubeconfig: ${{secrets.KUBE_CONFIG}}
+      
       - name: Fetch Kubernetes CLuster Details
         run: |
           echo "Client Version:"
