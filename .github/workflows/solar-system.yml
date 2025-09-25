@@ -102,16 +102,24 @@ jobs:
       #   with:
       #     node-version: 18
 
-      - name: Cache NPM dependencies
-        uses: actions/cache@v4
+      # - name: Cache NPM dependencies
+      #   uses: actions/cache@v4
+      #   with:
+      #     path: node_modules
+      #     key: ${{runner.os}}-node-modules-${{hashFiles('package-lock.json')}}
+
+      # - name: Install Dependencies
+      #   run: npm install 
+
+      - name: Composite Action - Cache & Install NPM Packages
+        uses: ./.github/custom-actions/npm-action/action.yml
         with:
-          path: node_modules
-          key: ${{runner.os}}-node-modules-${{hashFiles('package-lock.json')}}
+          path-of-folder: node_modules
+          
       - name: Set dynamic MONGO_URI
         run: echo "MONGO_URI=mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@localhost:27017/solar_system?authSource=admin" >> $GITHUB_ENV
 
-      - name: Install Dependencies
-        run: npm install 
+   
 
       - name: Check Code Coverage
         continue-on-error: true
@@ -184,7 +192,14 @@ jobs:
   dev-deploy:
     needs: docker
     if: contains(github.ref, 'feature/')
-    uses: .github/workflows/reuse-deployment.yml
+    uses:  ./.github/workflows/deploy.yml
+    secrets:
+      k8s-kubeconfig: ${{secrets.KUBECONFIG}}
+      mongodb-password: ${{secrets.MONGO_PASSWORD}}
+    with:
+      mongodb-uri: ${{vars.MONGO_URI}}
+      environement: development
+      k8s-manifest-dir: kubernetes/developement
 
   integration-test:
     name: Dev Integration Testing
@@ -193,7 +208,7 @@ jobs:
     steps:
       - name: Test URL Ouput using CURL and JQ
         env:
-          URL: ${{needs.dev-deploy.outputs.APP_INGRESS_HOST}}
+          URL: ${{needs.dev-deploy.outputs.application-url}}
         run: |
           echo $URL
           echo "-------------------------------"
@@ -202,9 +217,38 @@ jobs:
   prof-deploy:
     if: github.ref == 'refs/heads/main'
     needs: docker
-    uses: .github/workflows/reuse-deployment.yml
-      
+    uses: ./.github/workflows/deploy.yml
+    secrets:
+      k8s-kubeconfig: ${{secrets.KUBECONFIG}}
+      mongodb-password: ${{secrets.MONGO_PASSWORD}}
+    with:
+      mongodb-uri: ${{vars.MONGO_URI}}
+      environement: development
+      k8s-manifest-dir: kubernetes/production
 
+  reports-s3:
+    needs: [code-coverage, unit-testing]
+    name: AWS S3 - Upload Reports
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - name: Download Mocha Artifact
+        uses: actions/download-artifact@v5
+        with:
+          name: Mocha-Test-Result
+      - name: Download Mocha Artifact
+        uses: actions/download-artifact@v5
+        with:
+          name: Code-Coverage-Result
+      - name: Merge Test files
+        run: |
+          ls -ltr
+          mkdir reports_${{github.sha}}
+          mv cobertura-coverage.xml reports_${{github.sha}}
+          mv test-rsults.xml reports_${{github.sha}}
+          ls -ltr reports-${{github.sha}}
+      - name: Upload to aws S3
+        run: echo ....
 
 
 
