@@ -223,17 +223,32 @@ jobs:
           kubectl version
           echo "Nodes"
           kubectl get nodes
+      - name: Install ingress-nginx
+        run: |
+          kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.1/deploy/static/provider/kind/deploy.yaml
+          kubectl wait --namespace ingress-nginx \
+            --for=condition=ready pod \
+            --selector=app.kubernetes.io/component=controller \
+            --timeout=120s
+      - name: Set Ingress IP
+        id: ingress
+        run: |
+          NODE_IP=$(kubectl get nodes -o jsonpath='{.items[0].status.addresses[0].address}')
+          NODE_PORT=$(kubectl get svc -n ingress-nginx ingress-nginx-controller \
+            -o jsonpath='{.spec.ports[0].nodePort}')
+          echo "INGRESS_IP=http://$NODE_IP:$NODE_PORT" >> $GITHUB_ENV
 
-      # - name: Replace Token in Manifest files
-      #   uses:  cschleiden/replace-tokens@v1
-      #   with:
-      #     tokenPrefix: '_{_'
-      #     tokenSuffix: '_}_'
-      #     files: '["solar-system-repo/kubernetes/development/*.yaml"]'
-      #   env:
-      #     NAMESPACE: ${{vars.NAMESPACE}}
-      #     REPLICAS: ${{vars.REPLICAS}}
-      #     IMAGE: ${{vars.DOCKERHUB_USERNAME}}/solar-systems:${{github.sha}}
+      - name: Replace Token in Manifest files
+        uses:  cschleiden/replace-tokens@v1
+        with:
+          tokenPrefix: '_{_'
+          tokenSuffix: '_}_'
+          files: '["solar-system-repo/kubernetes/development/*.yaml"]'
+        env:
+          NAMESPACE: ${{vars.NAMESPACE}}
+          REPLICAS: ${{vars.REPLICAS}}
+          IMAGE: ${{vars.DOCKERHUB_USERNAME}}/solar-systems:${{github.sha}}
+          INGRESS_IP: $INGRESS_IP
      
 
 
