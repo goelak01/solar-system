@@ -227,9 +227,8 @@ jobs:
         run: |
           kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.1/deploy/static/provider/kind/deploy.yaml
 
-            # Wait until at least 1 pod exists
-          until kubectl get pods -n ingress-nginx -l app.kubernetes.io/component=controller; do
-            echo "Waiting for ingress-nginx controller pod to appear..."
+          echo "Waiting for ingress-nginx controller pod to be created..."
+          until kubectl get pods -n ingress-nginx -l app.kubernetes.io/component=controller --no-headers 2>/dev/null | grep -q .; do 
             sleep 5
           done
 
@@ -237,6 +236,8 @@ jobs:
             --for=condition=ready pod \
             --selector=app.kubernetes.io/component=controller \
             --timeout=120s
+          
+          kubectl get pods -n ingress-nginx
       - name: Set Ingress IP
         id: ingress
         run: |
@@ -256,6 +257,9 @@ jobs:
           REPLICAS: ${{vars.REPLICAS}}
           IMAGE: ${{vars.DOCKERHUB_USERNAME}}/solar-systems:${{github.sha}}
           INGRESS_IP: ${{ env.INGRESS_IP }}
+      - name: Depoy to Dev Env
+        run: |
+          kubectl apply -f kubernetes/development
      
 
 
