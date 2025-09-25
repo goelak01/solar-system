@@ -226,6 +226,13 @@ jobs:
       - name: Install ingress-nginx
         run: |
           kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.1/deploy/static/provider/kind/deploy.yaml
+
+            # Wait until at least 1 pod exists
+          until kubectl get pods -n ingress-nginx -l app.kubernetes.io/component=controller; do
+            echo "Waiting for ingress-nginx controller pod to appear..."
+            sleep 5
+          done
+
           kubectl wait --namespace ingress-nginx \
             --for=condition=ready pod \
             --selector=app.kubernetes.io/component=controller \
@@ -248,7 +255,7 @@ jobs:
           NAMESPACE: ${{vars.NAMESPACE}}
           REPLICAS: ${{vars.REPLICAS}}
           IMAGE: ${{vars.DOCKERHUB_USERNAME}}/solar-systems:${{github.sha}}
-          INGRESS_IP: $INGRESS_IP
+          INGRESS_IP: ${{ env.INGRESS_IP }}
      
 
 
